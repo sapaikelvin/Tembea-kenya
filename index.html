@@ -3,75 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tembea Kenya</title>
-    <script>
-        // Local Storage for packing checklist and itinerary
-        function saveChecklist() {
-            const checklist = document.getElementById('packingChecklist').value;
-            localStorage.setItem('packingChecklist', checklist);
-        }
-
-        function loadChecklist() {
-            const checklist = localStorage.getItem('packingChecklist');
-            if (checklist) {
-                document.getElementById('packingChecklist').value = checklist;
-            }
-        }
-
-        function saveItinerary() {
-            const itinerary = document.getElementById('itineraryBuilder').value;
-            localStorage.setItem('itinerary', itinerary);
-        }
-
-        function loadItinerary() {
-            const itinerary = localStorage.getItem('itinerary');
-            if (itinerary) {
-                document.getElementById('itineraryBuilder').value = itinerary;
-            }
-        }
-
-        window.onload = function() {
-            loadChecklist();
-            loadItinerary();
-        };
-    </script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
+    <title>Travel Website</title>
+    <style>
+        /* Add any custom styles here */
+    </style>
 </head>
-<body>
-    <header>
-        <h1>Welcome to Tembea Kenya</h1>
+<body class="bg-gray-100">
+    <header class="bg-blue-600 text-white p-4">
+        <h1 class="text-xl font-bold">Explore Kenya</h1>
     </header>
-    <main>
-        <section id="popular-destinations">
-            <h2>Popular Destinations</h2>
-            <ul>
+    <main class="p-4">
+        <section id="destinations" class="mb-8">
+            <h2 class="text-lg font-semibold">Popular Destinations</h2>
+            <ul class="list-disc pl-5">
                 <li>Nairobi</li>
                 <li>Maasai Mara</li>
                 <li>Lake Nakuru</li>
+                <li>Mount Kenya</li>
+                <li>Mombasa Beach</li>
             </ul>
         </section>
-
-        <section id="working-destinations">
-            <h2>Working Destinations Form</h2>
-            <form action="#">
-                <label for="destination">Destination:</label>
-                <input type="text" id="destination" name="destination" required>
-                <input type="submit" value="Submit">
+        <section id="add-destination" class="mb-8">
+            <h2 class="text-lg font-semibold">Add Custom Destination</h2>
+            <form id="destination-form" class="mb-4">
+                <input type="text" id="destination" placeholder="Destination" class="border rounded p-1">
+                <input type="date" id="date" class="border rounded p-1">
+                <button type="submit" class="bg-blue-600 text-white px-2 rounded">Add</button>
             </form>
+            <ul id="destination-list" class="list-disc pl-5"></ul>
         </section>
-
-        <section id="travel-tools">
-            <h2>Travel Tools</h2>
-            <h3>Packing Checklist</h3>
-            <textarea id="packingChecklist" rows="10" cols="50"></textarea>
-            <button onclick="saveChecklist()">Save Checklist</button>
-
-            <h3>Itinerary Builder</h3>
-            <textarea id="itineraryBuilder" rows="10" cols="50"></textarea>
-            <button onclick="saveItinerary()">Save Itinerary</button>
+        <section id="packing-checklist" class="mb-8">
+            <h2 class="text-lg font-semibold">Packing Checklist</h2>
+            <input type="text" id="checklist-item" placeholder="Add item" class="border rounded p-1">
+            <button id="add-item" class="bg-blue-600 text-white px-2 rounded">Add</button>
+            <ul id="checklist-list" class="list-disc pl-5"></ul>
+        </section>
+        <section id="itinerary-builder" class="mb-8">
+            <h2 class="text-lg font-semibold">Itinerary Builder</h2>
+            <input type="text" id="activity" placeholder="Daily Activity" class="border rounded p-1">
+            <button id="add-activity" class="bg-blue-600 text-white px-2 rounded">Add</button>
+            <ul id="activity-list" class="list-disc pl-5"></ul>
+        </section>
+        <section id="weather-widget" class="mb-8">
+            <h2 class="text-lg font-semibold">Weather Widget</h2>
+            <div id="weather-info"></div>
+        </section>
+        <section id="currency-converter" class="mb-8">
+            <h2 class="text-lg font-semibold">Currency Converter</h2>
+            <input type="number" id="amount" placeholder="Amount in KES" class="border rounded p-1">
+            <button id="convert" class="bg-blue-600 text-white px-2 rounded">Convert</button>
+            <div id="conversion-result"></div>
         </section>
     </main>
-    <footer>
-        <p>&copy; 2026 Tembea Kenya</p>
-    </footer>
+    <script>
+        // Destination Form Functionality
+        const destinationForm = document.getElementById('destination-form');
+        const destinationList = document.getElementById('destination-list');
+        destinationForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const destination = document.getElementById('destination').value;
+            const date = document.getElementById('date').value;
+            const li = document.createElement('li');
+            li.innerText = `${destination} - ${date}`;
+            destinationList.appendChild(li);
+            destinationForm.reset();
+        });
+
+        // Packing Checklist Functionality
+        const addItemButton = document.getElementById('add-item');
+        const checklistList = document.getElementById('checklist-list');
+        addItemButton.addEventListener('click', function() {
+            const item = document.getElementById('checklist-item').value;
+            const li = document.createElement('li');
+            li.innerText = item;
+            checklistList.appendChild(li);
+            document.getElementById('checklist-item').value = '';
+        });
+
+        // Itinerary Builder Functionality
+        const addActivityButton = document.getElementById('add-activity');
+        const activityList = document.getElementById('activity-list');
+        addActivityButton.addEventListener('click', function() {
+            const activity = document.getElementById('activity').value;
+            const li = document.createElement('li');
+            li.innerText = activity;
+            activityList.appendChild(li);
+            document.getElementById('activity').value = '';
+        });
+
+        // Weather Widget (Placeholder)
+        document.getElementById('weather-info').innerText = 'Weather info will be displayed here.';
+
+        // Currency Converter Functionality (Placeholder)
+        document.getElementById('convert').addEventListener('click', function() {
+            const amount = document.getElementById('amount').value;
+            const conversionRate = 0.00875; // Sample rate
+            const convertedAmount = (amount * conversionRate).toFixed(2);
+            document.getElementById('conversion-result').innerText = `Converted Amount: ${convertedAmount} USD`;
+        });
+    </script>
 </body>
 </html>
